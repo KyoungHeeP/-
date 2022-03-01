@@ -1,0 +1,27 @@
+from bs4 import BeautifulSoup
+import pyautogui
+# 로그인 이메일이 email, 비밀번호가 password라는 가정하게 로그인 테스트 시나리오
+# HTML에서 각 속성이 존재하는지 기능을 확인하기 위해 if문으로 작성
+# 각 속성이 없다면, 기능이 존재하지 않는 것 이므로 fail 발생
+
+soup = BeautifulSoup(text, 'html.parser') # HTML page 호출
+
+if soup.select('a[class="btn btn-login ng-binding"]')  == "btn btn-login ng-binding": # class 가 btn btn-login ng-binding인 속성을 불러와 btn btn-login ng-binding 문자열과 비교
+	pyautogui.click(x=100, y=200, class='btn btn-login ng-binding') # 버튼 위치로 마우스 이동후 class가 btn btn-login ng-binding 클릭. 
+else:
+	print("Test fail") # login 변수가 btn btn-login ng-binding과 다를 경우 test fail.
+
+if soup.select('a[id="loginEmail"]') == "loginEmail": # id가 loginEmail인 속성을 불러와 "loginEmail" 문자열과 비교
+	pyautogui.type("email" id='loginEmail', interval=0.5) # id가 email인 속성을 찾아 0.5초 간격으로 email 입력 
+else:
+	print("Test fail") # id가 loginEmail인 속성이 없다면 test fail.
+
+if soup.select('a[id="loginPwd"]') == "loginPwd": # id가 loginPwd인 속성을 불러와 "loginPwd" 문자열과 비교
+	pyautogui.type("password", id='loginPwd',  interval=0.5) # id가 loginPwdl인 속성을 찾아 0.5초 간격으로 password 입력 
+else:
+	print("Test fail") # id가 loginPwd인 속성이 없다면 test fail.
+
+if pyautogui.find_element_by_id("keep_login") == "keep_login" # 체크박스 id인 keep_login 불러와 keep_login 문자열과 비교
+	pyautogui.click()
+else:
+	print("Test fail") # if가 keep_login 다를 경우 test fail.
