@@ -14,6 +14,7 @@ import re
 from selenium.webdriver.common.alert 
 import Alert
 import webdriver
+import ActionChains
 
 from bs4 import BeautifulSoup
 
@@ -23,7 +24,7 @@ import pyautogui
 # 테스트 시나리오 1-1 
 soup = BeautifulSoup(text, 'html.parser') # HTML page 호출
 
-if soup.select('a[class="btn btn-login ng-binding"]')  == "btn btn-login ng-binding": # class 가 btn btn-login ng-binding인 속성을 불러와 btn btn-login ng-binding 문자열과 비교
+if soup.select('a[class="btn btn-login ng-binding"]') == "btn btn-login ng-binding": # class 가 btn btn-login ng-binding인 속성을 불러와 btn btn-login ng-binding 문자열과 비교
 	pyautogui.click(x=100, y=200, class='btn btn-login ng-binding') # 버튼 위치로 마우스 이동후 class가 btn btn-login ng-binding 클릭. 
 else:
 	print("요기요 로그인 Test fail") # login 변수가 btn btn-login ng-binding과 다를 경우 test fail.
@@ -47,7 +48,7 @@ else:
 
 
 # 테스트 시나리오 1-2
-if soup.select('a[class="btn btn_join1 naver"]')  == "btn btn_join1 naver": # class 가 btn btn_join1 naver인 속성을 불러와 btn btn-login ng-binding 문자열과 비교, 네이버로그인 버튼 체크
+if soup.select('a[class="btn btn_join1 naver"]') == "btn btn_join1 naver": # class 가 btn btn_join1 naver인 속성을 불러와 btn btn-login ng-binding 문자열과 비교, 네이버로그인 버튼 체크
 	pyautogui.click(x=100, y=200, class='btn btn_join1 naver') # 버튼 위치로 마우스 이동후 로그인 버튼 클릭.
 	if pyautogui.find_element_by_id("log.login") == "log.login" # 네이버 연동 로그인 화면으로 이동했는지 확인
 		pyautogui.type("email" id='id', interval=0.5) # 네이버 로그인 화면에서 아이디를 0.5초 간격으로 email 입력 
@@ -62,7 +63,7 @@ print("네이버 로그인 기능 Test fail")
 
 
 # 테스트 시나리오 1-3
-if soup.select('a[class="btn btn_join1 kakao"]')  == "btn btn_join1 kakao": # class 가 btn btn_join1 kakao인 속성을 불러와 btn btn_join1 kakao 문자열과 비교, 카카오로그인 버튼 체크
+if soup.select('a[class="btn btn_join1 kakao"]') == "btn btn_join1 kakao": # class 가 btn btn_join1 kakao인 속성을 불러와 btn btn_join1 kakao 문자열과 비교, 카카오로그인 버튼 체크
 	alert = browser.switch_to.alert # 카카오 로그인 팝업창 확인
 	if alert != null # 팝업 발생 확인
 		pyautogui.type("email" id='id_email_2_label', interval=0.5) # 카카오 로그인 화면에서 아이디를 0.5초 간격으로 email 입력 
@@ -79,8 +80,8 @@ else
 	
 	
 # 테스트 시나리오 1-4
-if soup.select('a[class="btn btn-login ng-binding"]')  == "btn btn-login ng-binding": # class 가 btn btn-login ng-binding인 속성을 불러와 btn btn-login ng-binding 문자열과 비교, 로그아웃 버튼 체크
-	if soup.select('a[class="btn ng-binding btn_logout"]')  == "btn ng-binding btn_logout": # class 가 btn ng-binding btn_logout인 속성을 불러와 btn ng-binding btn_logout문자열과 비교, 로그아웃 상세 화면에서 버튼 체크
+if soup.select('a[class="btn btn-login ng-binding"]') == "btn btn-login ng-binding": # class 가 btn btn-login ng-binding인 속성을 불러와 btn btn-login ng-binding 문자열과 비교, 로그아웃 버튼 체크
+	if soup.select('a[class="btn ng-binding btn_logout"]') == "btn ng-binding btn_logout": # class 가 btn ng-binding btn_logout인 속성을 불러와 btn ng-binding btn_logout문자열과 비교, 로그아웃 상세 화면에서 버튼 체크
 		pyautogui.click(x=100, y=200, id='btn ng-binding btn_logout') # 로그아웃
 	else
 		print("로그아웃 Test fail")
@@ -90,15 +91,10 @@ else
 
 
 # 테스트 시나리오 2-1
-주문 할 레스토랑 클릭
-주문 할 음식 클릭 후, '주문표에 추가' 버튼 클릭
-상단 '주문표' 클릭
-'주문표' 옆에 휴지통 모양 클릭
-팝업 발생 시, '확인' 버튼 클릭
-if soup.select('a[class="restaurants-info"]')  == "restaurants-info": # 음식점 리스트 확인
+if soup.select('a[class="restaurants-info"]') == "restaurants-info": # 음식점 리스트 확인
 	pyautogui.click(x=100, y=200, class='restaurants-info') # 음식점 상세 클릭
 	pyautogui.click(x=100, y=200, class='promotion-info') # 음식점 상세 화면에서 메뉴 상세 클릭
-	if soup.select('a[class="btn-add-cart"]')  == "btn-add-cart": # 메뉴 상세 에서 주문표에 추가 버튼 체크
+	if soup.select('a[class="btn-add-cart"]') == "btn-add-cart": # 메뉴 상세 에서 주문표에 추가 버튼 체크
 		pyautogui.click(x=100, y=200, class='btn-add-cart') # 메뉴 주문표에 추가
 		info = html.select('div.btn btn-warning hidden-xs ng-binding') # btn btn-warning hidden-xs ng-binding class를 가진 div 텍스트 추출
 		num = re.findall("\d", info) # 추출한 텍스트에서 숫자만 추출하여 num에 저장
@@ -113,23 +109,100 @@ else
 
 	
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+# 테스트 시나리오 3-1
+if soup.select('a[class="btn btn-default ico-loc"]') == "btn btn-default ico-loc": # GPS 버튼 체크
+	if soup.select('a[name="address_input"]')  != null: # GPS 버튼 클릭 후 주소 확인하기
+		pyautogui.click(x=100, y=200, class='btn-search-location-cancel btn-search-location btn btn-default') # GPS 버튼 주소 삭제 클릭
+		pyautogui.type("영등포 타임스퀘어" id='address_input', interval=0.5) # 서치박스에 '영등포 타임스퀘어' 0.5초 간격으로 타이핑
+		if soup.select('a[name="ng-binding ng-scope"]') != null: # 주소 검색 리스트 생성 확인하기
+			select = driver.find_element_by_xpath("//select[class='ng-binding ng-scope']").click() # class가 ng-binding ng-scoped인 것을 클릭(드롭박스에서 첫번째 리스트 클릭)
+			pyautogui.click(x=100, y=200, class='btn btn-default ico-pick') # GPS 드롭박스에서 주소 검색 후 검색 버튼 클릭
+		else
+			print("검색한 주소가 표시되지 않음")
+		
+		class="ng-binding ng-scope"
+	else
+		print("GPS 주소 정상적으로 출력되지 않음 test fail")
+else
+	print("GPS 버튼 존재하지 않음 test fail")
 	
 
 
+# 테스트 시나리오 4-1, 4-2
+if soup.select('a[class="btn btn-default ico-search1"]') == "btn btn-default ico-search1": # 음식점/메뉴 검색 돋보기 아이콘 클릭
+	if soup.select('a[class="category_keyword"]') == "category_keyword": # 돋보기 검색창 발생 여부 확인
+		pyautogui.click(x=100, y=200, name='category_keyword') # 서치박스 클릭
+		pyautogui.type("피자헛" name='category_keyword', interval=0.5) # 서치박스에 피자헛 입력
+		if soup.select('a[class="btn-search-category-cancel btn btn-default"]') == "btn-search-category-cancel btn btn-default": # 서치박스에서 X를 눌러서 피자헛 삭제
+			pyautogui.click(x=100, y=200, name='category_keyword') # 서치박스 클릭
+			pyautogui.type("피자헌" name='category_keyword', interval=0.5) # 서치박스에 피자헛 입력
+			if soup.select('a[class="clearfix empty-restaurant"]') == "clearfix empty-restaurant": # 목록에 출력되지 않으면
+				print("검색 결과 정산 출력 test fail")
+		else
+			print("검색 삭제 기능 존재하지 않음 test fail")
+	else
+		print("돋보기 검색창 발생하지 않음 test fail")
+else
+	print("돋보기 아이콘 존재하지 않음 test fail")
+
+
+
+# 테스트 시나리오 5-1
+if soup.select('a[class="category-name ng-binding"]') == "category-name ng-binding": # 음식 종류 체크
+	restaurant_category = html.select('div.btncategory-icon ico-ct01') # 첫번째 항목인 '1인분 주문' 에서 class값 추출 하여 변수에 저장
+	num = re.findall("\d", restaurant_category) # class 값에서 숫자만 추출하여 변수에 저장
+	if num != null
+		for num in range(0, 14):
+			pyautogui.click(x=100, y=200, interval=3, class='category_keyword{{ loop.num }}') # class 이름을 기준으로 '1인분 주문' 부터 '편의점/마트' 까지 3초 간격으로 순차적으로 클릭
+	else
+		print("음식 종류 카테고리 존재하지 않음 test fail")
+else
+	print("음식 종류 존재 하지 않음 test fail")
+	
+	
+	
+# 테스트 시나리오 6-1	
+if soup.select('a[class="restaurants-info"]') == "restaurants-info": # 음식점 리스트 체크
+	pyautogui.click(x=100, y=200, name='restaurants-info') # 첫번째 음식점 클릭
+	if soup.select('a[class="photo-slide"]') == "photo-slide": # 상세 페이지에서 음식 메뉴 체크
+		driver.back() # 메뉴 확인 후 뒤로가기 클릭
+	else
+		print("음식메뉴가 존재 하지 않음 test fail")
+else
+	print("음식점이 존재 하지 않음 test fail")
+
+	
+	
+# 테스트 시나리오 6-2	
+if soup.select('a[class="list-option-inner"]') == "list-option-inner": # 정렬 리스트 박스 체크
+	pyautogui.click(x=100, y=200, class='list-option-inner') # 정렬 리스트 박스 클릭
+	if soup.select('a[value="rank"]') == "rank":
+		pyautogui.click(x=100, y=200, value='rank') # 기본 정렬 순 클릭
+	elif soup.select('a[value="review_count"]') == "review_count":
+		pyautogui.click(x=100, y=200, value='review_count') # 리뷰 많은순 클릭
+	elif soup.select('a[value="min_order_value"]') == "min_order_value":
+		pyautogui.click(x=100, y=200, value='min_order_value') # 최소 주문 금액순	클릭
+	elif soup.select('a[value="distance"]') == "distance":
+		pyautogui.click(x=100, y=200, value='distance') # 거리순 클릭
+	elif soup.select('a[value="estimated_delivery_time"]') == "estimated_delivery_time":
+		pyautogui.click(x=100, y=200, value='estimated_delivery_time') # 배달 시간순 클릭
+else
+	print("정렬 항목이 존재하지 않음 test fail")
+		
+	
+	
+# 테스트 시나리오 7-1
+if soup.select('a[class="restaurants-info"]') == "restaurants-info": # 전체화면에서 첫번째 음식점 체크
+	pyautogui.click(x=100, y=200, class='restaurants-info') # 첫번째 음식점 클릭
+	if soup.select('a[class="restaurantsmenu-name ng-binding"]') == "menu-name ng-binding": # 첫번째 메뉴 선택
+		if soup.select('a[class="btn-order"]') == "btn-order": # 메뉴 상세 팝업 확인하기
+			pyautogui.click(x=100, y=200, class='btn-order') # 주문하기 버튼 클릭
+			if soup.select('a[class="btn btn-lg btn-block btn-ygy1 ng-binding"]') == "btn btn-lg btn-block btn-ygy1 ng-binding": # 결제 상세 페이지로 이동했는지 확인
+			else
+				print("결제 상세 페이지로 이동되지 않음")
+		else
+			print("메뉴 상세 팝업이 발생하지 않음")
+	else
+		print("메뉴가 존재하지 않음 test fail")
+else
+	print("음식점이 존재하지 않음 test fail")
